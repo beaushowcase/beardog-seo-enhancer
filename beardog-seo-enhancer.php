@@ -3,7 +3,7 @@
  * Plugin Name:       Beardog SEO Enhancer
  * Plugin URI:        https://beardog.digital/
  * Description:       Designed to boost Beardog Company's website visibility and search engine rankings, ensuring overall digital marketing success.
- * Version:           1.5.4
+ * Version:           1.5.5
  * Requires PHP:      7.2
  * Author:            #beaubhavik
  * Author URI:        https://beardog.digital/
@@ -22,7 +22,7 @@ require_once 'beardog-update-checker/beardog-update-checker.php';
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 $myUpdateChecker = PucFactory::buildUpdateChecker(
-    'https://github.com/beaudigital/beardog-seo-enhancer/',
+    'https://github.com/beaushowcase/beardog-seo-enhancer/',
     __FILE__,
     'beardog-seo-enhancer'
 );
