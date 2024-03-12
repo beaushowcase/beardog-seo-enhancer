@@ -3,7 +3,7 @@
  * Plugin Name:       Beardog SEO Enhancer
  * Plugin URI:        https://beardog.digital/
  * Description:       Designed to boost Beardog Company's website visibility and search engine rankings, ensuring overall digital marketing success.
- * Version:           1.5.5
+ * Version:           1.5.6
  * Requires PHP:      7.2
  * Author:            #beaubhavik
  * Author URI:        https://beardog.digital/
@@ -144,7 +144,7 @@ function set_external_links()
         }
         jQuery('a').each(function() {
             var link = jQuery(this).attr('href');
-            if (!isInternal(link) && !link.startsWith('tel:')) {
+            if (!isInternal(link) && !link.startsWith('tel:') && !link.startsWith('mailto:')) {
                 // jQuery(this).addClass('bd-external-link');
                 var src = jQuery(this).text();
                 if (src) {
