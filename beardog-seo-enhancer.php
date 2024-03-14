@@ -131,6 +131,24 @@ function seo_phonescript()
 <?php
 }
 
+function seo_emailscript()
+{
+?>
+    <script>
+        if (jQuery('a[href^="mailto:"]')) {
+            jQuery('a[href^="mailto:"]').each(function() {
+                var df = jQuery(this).attr('href').slice(4);
+                var dd = jQuery.trim(df);
+                jQuery(this).attr('data-other', '1');
+                jQuery(this).attr('title', dd);
+                jQuery(this).attr('onclick', "gtag('event', 'Clicked to Email " + dd + "', { 'event_category' : 'Email (" + dd + ")' });");
+
+            });
+        }
+    </script>
+<?php
+}
+
 function set_external_links()
 {
 ?>
@@ -216,6 +234,9 @@ if (get_option("linkalt") == 1) {
 if (get_option("phonescript") == 1) {
     add_action('wp_footer', 'seo_phonescript', 0);
 }
+if (get_option("emailscript") == 1) {
+    add_action('wp_footer', 'seo_emailscript', 0);
+}
 if (get_option("set_external_links") == 1) {
     add_action('wp_footer', 'set_external_links', 0);
 }
@@ -228,6 +249,7 @@ if (get_option("set_internal_links") == 1) {
 function bd_delete_plugin_database_data()
 {
     delete_option('phonescript');
+    delete_option('emailscript');
     delete_option("seometa");
     delete_option("linkalt");
     delete_option("imglinkalt");
@@ -245,6 +267,7 @@ function bd_ajax_function()
     $response['bool'] = 0 ;
 
     $phonescript = $_POST['phonescript'];
+    $emailscript = $_POST['emailscript'];
     $seometa = $_POST['seometa'];
     $linkalt = $_POST['linkalt'];
     $imglinkalt = $_POST['imglinkalt'];
@@ -252,8 +275,9 @@ function bd_ajax_function()
     $set_internal_links = $_POST['set_internal_links'];
     $bool = $_POST['bool'];
 
-    if (isset($phonescript) || isset($seometa) || isset($linkalt) || isset($imglinkalt) || isset($set_external_links) || isset($set_internal_links)) {
+    if (isset($phonescript) || isset($emailscript) || isset($seometa) || isset($linkalt) || isset($imglinkalt) || isset($set_external_links) || isset($set_internal_links)) {
         $update_phonescript = update_option('phonescript', $phonescript);
+        $update_emailscript = update_option('emailscript', $emailscript);
         $update_seometa = update_option('seometa', $seometa);
         $update_linkalt = update_option('linkalt', $linkalt);
         $update_imglinkalt = update_option('imglinkalt', $imglinkalt);
@@ -261,6 +285,7 @@ function bd_ajax_function()
         $update_set_internal_links = update_option('set_internal_links', $set_internal_links);
 
         $response['data']['phonescript'] = $update_phonescript;
+        $response['data']['emailscript'] = $update_emailscript;
         $response['data']['seometa'] = $update_seometa;
         $response['data']['linkalt'] = $update_linkalt;
         $response['data']['imglinkalt'] = $update_imglinkalt;

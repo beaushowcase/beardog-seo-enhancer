@@ -1,6 +1,7 @@
 jQuery(document).ready(function ($) {
   $("#bd_ajax_form input[type='checkbox']").change(function () {
     var phonescript = $("#phonescript").prop("checked") ? 1 : 0;
+    var emailscript = $("#emailscript").prop("checked") ? 1 : 0;
     var seometa = $("#seometa").prop("checked") ? 1 : 0;
     var linkalt = $("#linkalt").prop("checked") ? 1 : 0;
     var imglinkalt = $("#imglinkalt").prop("checked") ? 1 : 0;
@@ -17,6 +18,7 @@ jQuery(document).ready(function ($) {
       data: {
         action: "bd_ajax_action",
         phonescript: phonescript,
+        emailscript: emailscript,
         seometa: seometa,
         linkalt: linkalt,
         imglinkalt: imglinkalt,

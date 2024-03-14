@@ -39,6 +39,14 @@ function beaudog_seo_enhancer_callback()
                 </div>
 
                 <div class="form-group">
+                        <label class="switch">
+                            <input type="checkbox" class="checkbox-data hoverme" id="emailscript" name="emailscript" value="1" <?php checked(get_option('emailscript'), 1); ?>>
+                            <span class="slider"></span>
+                        </label>
+                     <span class="switch-label">Email Analytics Tracker</span>
+                </div>
+
+                <div class="form-group">
                     <label class="switch">
                         <input type="checkbox" class="checkbox-data" id="seometa" name="seometa" value="1" <?php checked(get_option('seometa'), 1); ?>>
                         <span class="slider"></span>
