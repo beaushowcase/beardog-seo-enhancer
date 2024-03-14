@@ -3,7 +3,7 @@
  * Plugin Name:       Beardog SEO Enhancer
  * Plugin URI:        https://beardog.digital/
  * Description:       Designed to boost Beardog Company's website visibility and search engine rankings, ensuring overall digital marketing success.
- * Version:           1.5.6
+ * Version:           1.5.7
  * Requires PHP:      7.2
  * Author:            #beaubhavik
  * Author URI:        https://beardog.digital/
@@ -137,12 +137,11 @@ function seo_emailscript()
     <script>
         if (jQuery('a[href^="mailto:"]')) {
             jQuery('a[href^="mailto:"]').each(function() {
-                var df = jQuery(this).attr('href').slice(4);
+                var df = jQuery(this).attr('href').slice(7); // Changed to slice(7) to remove "mailto:"
                 var dd = jQuery.trim(df);
                 jQuery(this).attr('data-other', '1');
                 jQuery(this).attr('title', dd);
                 jQuery(this).attr('onclick', "gtag('event', 'Clicked to Email " + dd + "', { 'event_category' : 'Email (" + dd + ")' });");
-
             });
         }
     </script>
