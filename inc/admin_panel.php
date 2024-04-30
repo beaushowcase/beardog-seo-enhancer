@@ -91,7 +91,7 @@ function beaudog_seo_enhancer_callback()
                         <input type="checkbox" class="checkbox-data" id="titleset" name="titleset" value="1" <?php checked(get_option('titleset'), 1); ?>>
                         <span class="slider"></span>
                     </label>
-                    <span class="switch-label">Image Tag Title Auto-sett</span>
+                    <span class="switch-label">Image Tag Title Auto-setter</span>
                 </div>
 
                 
