@@ -5,6 +5,7 @@ jQuery(document).ready(function ($) {
     var seometa = $("#seometa").prop("checked") ? 1 : 0;
     var linkalt = $("#linkalt").prop("checked") ? 1 : 0;
     var imglinkalt = $("#imglinkalt").prop("checked") ? 1 : 0;
+    var titleset = $("#titleset").prop("checked") ? 1 : 0;
     var set_external_links = $("#set_external_links").prop("checked") ? 1 : 0;
     var set_internal_links = $("#set_internal_links").prop("checked") ? 1 : 0;
     var bool = false;
@@ -22,6 +23,7 @@ jQuery(document).ready(function ($) {
         seometa: seometa,
         linkalt: linkalt,
         imglinkalt: imglinkalt,
+        titleset: titleset,
         set_external_links: set_external_links,
         set_internal_links: set_internal_links,
         bool: bool,
@@ -53,9 +55,7 @@ function explodePage() {
   function random(max) {
     return Math.random() * (max - 0) + 0;
   }
-
   var particleContainer = document.createDocumentFragment();
-
   for (var i = 0; i < 500; i++) {
     var styles =
       "top: " +
@@ -65,13 +65,11 @@ function explodePage() {
       "px; animation-delay: " +
       random(1000) +
       "ms;";
-
     var particle = document.createElement("div");
     particle.className = "particle";
     particle.style.cssText = styles.toString();
     particleContainer.appendChild(particle);
   }
-
   document.body.appendChild(particleContainer);
 }
 

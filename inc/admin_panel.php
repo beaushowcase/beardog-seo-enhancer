@@ -64,14 +64,6 @@ function beaudog_seo_enhancer_callback()
 
                 <div class="form-group">
                     <label class="switch">
-                        <input type="checkbox" class="checkbox-data" id="imglinkalt" name="imglinkalt" value="1" <?php checked(get_option('imglinkalt'), 1); ?>>
-                        <span class="slider"></span>
-                    </label>
-                    <span class="switch-label">Image Alt Text Auto-setter</span>
-                </div>
-
-                <div class="form-group">
-                    <label class="switch">
                         <input type="checkbox" class="checkbox-data" id="set_external_links" name="set_external_links" value="1" <?php checked(get_option('set_external_links'), 1); ?>>
                         <span class="slider"></span>
                     </label>
@@ -85,6 +77,24 @@ function beaudog_seo_enhancer_callback()
                     </label>
                     <span class="switch-label">Set Internal Links</span>
                 </div>
+
+                <div class="form-group">
+                    <label class="switch">
+                        <input type="checkbox" class="checkbox-data" id="imglinkalt" name="imglinkalt" value="1" <?php checked(get_option('imglinkalt'), 1); ?>>
+                        <span class="slider"></span>
+                    </label>
+                    <span class="switch-label">Image Alt Text Auto-setter</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="switch">
+                        <input type="checkbox" class="checkbox-data" id="titleset" name="titleset" value="1" <?php checked(get_option('titleset'), 1); ?>>
+                        <span class="slider"></span>
+                    </label>
+                    <span class="switch-label">Image Tag Title Auto-sett</span>
+                </div>
+
+                
             </form>
         </div>
     </div>   

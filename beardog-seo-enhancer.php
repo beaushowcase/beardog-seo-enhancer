@@ -3,7 +3,7 @@
  * Plugin Name:       Beardog SEO Enhancer
  * Plugin URI:        https://beardog.digital/
  * Description:       Designed to boost Beardog Company's website visibility and search engine rankings, ensuring overall digital marketing success.
- * Version:           1.5.7
+ * Version:           1.5.8
  * Requires PHP:      7.2
  * Author:            #beaubhavik
  * Author URI:        https://beardog.digital/
@@ -70,41 +70,76 @@ function bd_seo_data_add()
 function footer_script_img()
 {
 ?>
-    <script>
+<script>
+    if (jQuery('img').length > 0) { // Check if there are any img elements
+        jQuery('img').each(function() {   
+            let src = jQuery(this).attr('src');             
+            if (src) { // Check if src is defined
+                var altValue = jQuery(this).attr('alt');
+                if (altValue && altValue.trim() !== '') {
+                    jQuery(this).addClass('alt_have');
+                } else {                                   
+                    var words = src.substring(src.lastIndexOf("/") + 1);
+                    if (words) {
+                        var finaltxt = words.substring(0, words.lastIndexOf("."))
+                            .split(/[-_]/)
+                            .map(function(word) {
+                                return word.charAt(0).toUpperCase() + word.slice(1);
+                            })
+                            .join(' ');                       
+                        jQuery(this).attr('alt', finaltxt);
+                    }
+                }
+            }                
+        });
+    }
+</script>
+<?php
+}
+
+// image title attribute logic
+function image_titleset(){ ?>
+<script>
         if (jQuery('img')) {
-            if (!jQuery(this).attr('alt')) {
-                jQuery('img').each(function() {
-                    var src = jQuery(this).attr('src');
-                    var words = src.substring(src.lastIndexOf("/") + 1, src.length);
+            jQuery('img').each(function() {   
+                let src = jQuery(this).attr('src');             
+                var altValue = jQuery(this).attr('title');
+                if (altValue && altValue.trim() !== '') {
+                    jQuery(this).addClass('title_have');
+                } else {  
+                    if (src) {                                 
+                    var words = src.substring(src.lastIndexOf("/") + 1, src.length);                       
                     var finaltxt = words.substring(0, words.lastIndexOf("."))
-                        .split(/[-_]/) // Split by both hyphens and underscores
+                        .split(/[-_]/)
                         .map(function(word) {
                             return word.charAt(0).toUpperCase() + word.slice(1);
                         })
-                        .join(' ');                   
-                    jQuery(this).attr('alt', finaltxt);
-                });
-            }
+                        .join(' ');                                          
+                        jQuery(this).attr('title', finaltxt);
+                    }
+                }                
+            });
         }
     </script>
-<?php
-}
+<?php }
+
+
 function footer_script_a_tag()
 {
 ?>
     <script>
         if (jQuery('a')) {
-            $('a').each(function() {
+            jQuery('a').each(function() {
             // Check if the anchor has an href attribute and if it's not empty
-            if ($(this).attr('href') && $(this).attr('href').trim() !== '') {
+            if (jQuery(this).attr('href') && jQuery(this).attr('href').trim() !== '') {
                 // Check if the anchor doesn't have a title attribute
-                if (!$(this).attr('title')) {
-                    var src = $(this).text();
+                if (!jQuery(this).attr('title')) {
+                    var src = jQuery(this).text();
                     if (src) {
                         const div = document.createElement('div');
                         div.innerHTML = src;
                         var sanitizedTitle = div.textContent.trim();
-                        $(this).attr('title', sanitizedTitle);
+                        jQuery(this).attr('title', sanitizedTitle);
                     }
                 }
             }
@@ -224,9 +259,6 @@ function set_internal_links()
 if (get_option("seometa") == 1) {
     add_action('wp_head', 'bd_seo_data_add', 0);
 }
-if (get_option("imglinkalt") == 1) {
-    add_action('wp_footer', 'footer_script_img');
-}
 if (get_option("linkalt") == 1) {
     add_action('wp_footer', 'footer_script_a_tag');
 }
@@ -242,6 +274,12 @@ if (get_option("set_external_links") == 1) {
 if (get_option("set_internal_links") == 1) {
     add_action('wp_footer', 'set_internal_links', 0);
 }
+if (get_option("imglinkalt") == 1) {
+    add_action('wp_footer', 'footer_script_img');
+}
+if (get_option("titleset") == 1) {
+    add_action('wp_footer', 'image_titleset');
+}
 //  END plugin admin panel option data - Condtion for enable-disable
 
 // Delete plugin data on uninstall.
@@ -252,6 +290,7 @@ function bd_delete_plugin_database_data()
     delete_option("seometa");
     delete_option("linkalt");
     delete_option("imglinkalt");
+    delete_option("titleset");
     delete_option("set_external_links");
     delete_option("set_internal_links");
 }
@@ -270,16 +309,18 @@ function bd_ajax_function()
     $seometa = $_POST['seometa'];
     $linkalt = $_POST['linkalt'];
     $imglinkalt = $_POST['imglinkalt'];
+    $titleset = $_POST['titleset'];
     $set_external_links = $_POST['set_external_links'];
     $set_internal_links = $_POST['set_internal_links'];
     $bool = $_POST['bool'];
 
-    if (isset($phonescript) || isset($emailscript) || isset($seometa) || isset($linkalt) || isset($imglinkalt) || isset($set_external_links) || isset($set_internal_links)) {
+    if (isset($phonescript) || isset($emailscript) || isset($seometa) || isset($linkalt) || isset($imglinkalt) || isset($titleset) || isset($set_external_links) || isset($set_internal_links)) {
         $update_phonescript = update_option('phonescript', $phonescript);
         $update_emailscript = update_option('emailscript', $emailscript);
         $update_seometa = update_option('seometa', $seometa);
         $update_linkalt = update_option('linkalt', $linkalt);
         $update_imglinkalt = update_option('imglinkalt', $imglinkalt);
+        $update_titleset = update_option('titleset', $titleset);
         $update_set_external_links = update_option('set_external_links', $set_external_links);
         $update_set_internal_links = update_option('set_internal_links', $set_internal_links);
 
@@ -288,6 +329,7 @@ function bd_ajax_function()
         $response['data']['seometa'] = $update_seometa;
         $response['data']['linkalt'] = $update_linkalt;
         $response['data']['imglinkalt'] = $update_imglinkalt;
+        $response['data']['titleset'] = $update_titleset;
         $response['data']['set_external_links'] = $update_set_external_links;
         $response['data']['set_internal_links'] = $update_set_internal_links;
 
