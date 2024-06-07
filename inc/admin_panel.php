@@ -80,20 +80,11 @@ function beaudog_seo_enhancer_callback()
 
                 <div class="form-group">
                     <label class="switch">
-                        <input type="checkbox" class="checkbox-data" id="imglinkalt" name="imglinkalt" value="1" <?php checked(get_option('imglinkalt'), 1); ?>>
+                        <input type="checkbox" class="checkbox-data" id="image_bothattr" name="image_bothattr" value="1" <?php checked(get_option('image_bothattr'), 1); ?>>
                         <span class="slider"></span>
                     </label>
-                    <span class="switch-label">Image Alt Text Auto-setter</span>
+                    <span class="switch-label">Image Alt & Title Auto Setter</span>
                 </div>
-
-                <div class="form-group">
-                    <label class="switch">
-                        <input type="checkbox" class="checkbox-data" id="titleset" name="titleset" value="1" <?php checked(get_option('titleset'), 1); ?>>
-                        <span class="slider"></span>
-                    </label>
-                    <span class="switch-label">Image Tag Title Auto-setter</span>
-                </div>
-
                 
             </form>
         </div>

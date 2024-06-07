@@ -3,9 +3,8 @@ jQuery(document).ready(function ($) {
     var phonescript = $("#phonescript").prop("checked") ? 1 : 0;
     var emailscript = $("#emailscript").prop("checked") ? 1 : 0;
     var seometa = $("#seometa").prop("checked") ? 1 : 0;
-    var linkalt = $("#linkalt").prop("checked") ? 1 : 0;
-    var imglinkalt = $("#imglinkalt").prop("checked") ? 1 : 0;
-    var titleset = $("#titleset").prop("checked") ? 1 : 0;
+    var linkalt = $("#linkalt").prop("checked") ? 1 : 0;    
+    var image_bothattr = $("#image_bothattr").prop("checked") ? 1 : 0;
     var set_external_links = $("#set_external_links").prop("checked") ? 1 : 0;
     var set_internal_links = $("#set_internal_links").prop("checked") ? 1 : 0;
     var bool = false;
@@ -21,9 +20,8 @@ jQuery(document).ready(function ($) {
         phonescript: phonescript,
         emailscript: emailscript,
         seometa: seometa,
-        linkalt: linkalt,
-        imglinkalt: imglinkalt,
-        titleset: titleset,
+        linkalt: linkalt,        
+        image_bothattr: image_bothattr,
         set_external_links: set_external_links,
         set_internal_links: set_internal_links,
         bool: bool,
