@@ -13,13 +13,16 @@ function beardog_add_menu_page()
     );
 }
 add_action('admin_menu', 'beardog_add_menu_page');
-function beardog_add_settings_link($links)
+function beardog_add_settings_link($links, $file)
 {
-    $settings_link = '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=beardog-seo-enhancer')) . '">' . __('Beardog Settings') . '</a>';
-    array_unshift($links, $settings_link);
+    if (strpos($file, 'beardog-seo-enhancer/beardog-seo-enhancer.php') !== false || strpos($file, 'beardog-seo-enhancer-main/beardog-seo-enhancer-main.php') !== false) {
+        $settings_link = '<a href="' . esc_url(get_admin_url(null, 'admin.php?page=beardog-seo-enhancer')) . '">' . __('Beardog Settings') . '</a>';
+        array_unshift($links, $settings_link);
+    }
     return $links;
 }
-add_filter('plugin_action_links_beardog-seo-enhancer/beardog-seo-enhancer.php', 'beardog_add_settings_link');
+add_filter('plugin_action_links', 'beardog_add_settings_link', 10, 2);
+
 
 function beaudog_seo_enhancer_callback()
 {
