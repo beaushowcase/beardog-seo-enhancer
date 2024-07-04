@@ -3,7 +3,7 @@
  * Plugin Name:       Beardog SEO Enhancer
  * Plugin URI:        https://beardog.digital/
  * Description:       Designed to boost Beardog Company's website visibility and search engine rankings, ensuring overall digital marketing success.
- * Version:           1.6.2
+ * Version:           1.6.3
  * Requires PHP:      7.2
  * Author:            #beaubhavik
  * Author URI:        https://beardog.digital/
@@ -45,9 +45,13 @@ function bd_load_admin_style()
 
         wp_enqueue_script('bd-ajax-script', plugin_dir_url(__FILE__) . 'js/bd_ajax.js', array('jquery'), '1.0', true);
 
-        wp_localize_script('bd-ajax-script', 'ajax_object', array(
-            'ajax_url'   => admin_url('admin-ajax.php')
-        ));
+        wp_localize_script(
+            'bd-ajax-script',
+            'ajax_object',
+            array(
+                'ajax_url' => admin_url('admin-ajax.php')
+            )
+        );
 
         wp_enqueue_script('bd_custom', plugins_url('/js/custom.js', __FILE__), [], '1.0.0', true);
     }
@@ -69,10 +73,10 @@ function bd_seo_data_add()
 
 function footer_script_img()
 {
-?>
+    ?>
     <script>
         if (jQuery('img').length > 0) { // Check if there are any img elements
-            jQuery('img').each(function() {
+            jQuery('img').each(function () {
                 let src = jQuery(this).attr('src');
                 if (src) { // Check if src is defined
                     var altValue = jQuery(this).attr('alt');
@@ -83,7 +87,7 @@ function footer_script_img()
                         if (words) {
                             var finaltxt = words.substring(0, words.lastIndexOf("."))
                                 .split(/[-_]/)
-                                .map(function(word) {
+                                .map(function (word) {
                                     return word.charAt(0).toUpperCase() + word.slice(1);
                                 })
                                 .join(' ');
@@ -94,17 +98,17 @@ function footer_script_img()
             });
         }
     </script>
-<?php
+    <?php
 }
 
 function image_bothattr()
 {
-?>
+    ?>
     <script>
-        jQuery(document).ready(function($) {
-            $('img').each(function() {
+        jQuery(document).ready(function ($) {
+            $('img').each(function () {
                 var $img = $(this);
-                var src = $img.attr('src');                
+                var src = $img.attr('src');
                 var attachmentId = findAttachmentId(src);
                 var title = generateTitle(src);
                 var alt = generateTitle(src);
@@ -117,10 +121,17 @@ function image_bothattr()
                     alt = attachmentMeta.meta[attachmentId].myalt || alt;
                 }
 
+                // $img.attr({
+                //     'title': title,
+                //     'alt': alt
+                // });
                 $img.attr({
                     'title': title,
-                    'alt': alt
+                    'alt': alt,
+                    'data-original-title': title
                 });
+
+                $img.attr('title', '');
             });
 
             function findAttachmentId(src) {
@@ -135,7 +146,7 @@ function image_bothattr()
             function generateTitle(src) {
                 var words = src.substring(src.lastIndexOf("/") + 1, src.lastIndexOf("."))
                     .split(/[-_]/)
-                    .map(function(word) {
+                    .map(function (word) {
                         return word.charAt(0).toUpperCase() + word.slice(1);
                     })
                     .join(' ');
@@ -143,22 +154,24 @@ function image_bothattr()
             }
         });
     </script>
-<?php
+    <?php
 }
 
 function enqueue_image_bothattr_script()
 {
     if (get_option("image_bothattr") == 1) {
-        $attachments = get_posts(array(
-            'post_type' => 'attachment',
-            'posts_per_page' => -1,
-            'post_status' => 'inherit'
-        ));
+        $attachments = get_posts(
+            array(
+                'post_type' => 'attachment',
+                'posts_per_page' => -1,
+                'post_status' => 'inherit'
+            )
+        );
         $attachment_meta = array();
         foreach ($attachments as $attachment) {
             $attachment_id = $attachment->ID;
-            $image_title  = get_post_field('post_title', $attachment_id);
-            $image_alt        = get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
+            $image_title = get_post_field('post_title', $attachment_id);
+            $image_alt = get_post_meta($attachment_id, '_wp_attachment_image_alt', true);
             $attachment_url = wp_get_attachment_url($attachment_id);
             $attachment_meta[$attachment_id] = array(
                 'hasTitleField' => !empty($image_title),
@@ -167,9 +180,13 @@ function enqueue_image_bothattr_script()
                 'myalt' => $image_alt
             );
         }
-        wp_localize_script('jquery', 'attachmentMeta', array(
-            'meta' => $attachment_meta
-        ));
+        wp_localize_script(
+            'jquery',
+            'attachmentMeta',
+            array(
+                'meta' => $attachment_meta
+            )
+        );
         add_action('wp_footer', 'image_bothattr');
     }
 }
@@ -178,10 +195,10 @@ add_action('wp_enqueue_scripts', 'enqueue_image_bothattr_script');
 
 function footer_script_a_tag()
 {
-?>
+    ?>
     <script>
         if (jQuery('a')) {
-            jQuery('a').each(function() {
+            jQuery('a').each(function () {
                 if (jQuery(this).attr('href') && jQuery(this).attr('href').trim() !== '') {
                     if (!jQuery(this).attr('title')) {
                         var src = jQuery(this).text();
@@ -196,14 +213,14 @@ function footer_script_a_tag()
             });
         }
     </script>
-<?php
+    <?php
 }
 function seo_phonescript()
 {
-?>
+    ?>
     <script>
         if (jQuery('a[href^="tel:"]')) {
-            jQuery('a[href^="tel:"]').each(function() {
+            jQuery('a[href^="tel:"]').each(function () {
                 var df = jQuery(this).attr('href').slice(4);
                 var dd = jQuery.trim(df);
                 jQuery(this).attr('data-other', '1');
@@ -213,15 +230,15 @@ function seo_phonescript()
             });
         }
     </script>
-<?php
+    <?php
 }
 
 function seo_emailscript()
 {
-?>
+    ?>
     <script>
         if (jQuery('a[href^="mailto:"]')) {
-            jQuery('a[href^="mailto:"]').each(function() {
+            jQuery('a[href^="mailto:"]').each(function () {
                 var df = jQuery(this).attr('href').slice(7); // Changed to slice(7) to remove "mailto:"
                 var dd = jQuery.trim(df);
                 jQuery(this).attr('data-other', '1');
@@ -230,12 +247,12 @@ function seo_emailscript()
             });
         }
     </script>
-<?php
+    <?php
 }
 
 function set_external_links()
 {
-?>
+    ?>
     <script>
         // Function to check if a link is internal or external
         function isInternal(link) {
@@ -244,7 +261,7 @@ function set_external_links()
             dummyLink.href = link;
             return dummyLink.hostname === currentDomain;
         }
-        jQuery('a').each(function() {
+        jQuery('a').each(function () {
             var link = jQuery(this).attr('href');
             if (!isInternal(link) && !link.startsWith('tel:') && !link.startsWith('mailto:') && !jQuery(this).closest('#sbi_load').length) {
                 // jQuery(this).addClass('bd-external-link');
@@ -265,12 +282,12 @@ function set_external_links()
             }
         });
     </script>
-<?php
+    <?php
 }
 
 function set_internal_links()
 {
-?>
+    ?>
     <script>
         // Function to check if a link is internal or external
         function isInternal(link) {
@@ -279,7 +296,7 @@ function set_internal_links()
             dummyLink.href = link;
             return dummyLink.hostname === currentDomain;
         }
-        jQuery('a').each(function() {
+        jQuery('a').each(function () {
             var link = jQuery(this).attr('href');
             if (isInternal(link)) {
                 // jQuery(this).addClass('bd-internal-link');
@@ -303,7 +320,7 @@ function set_internal_links()
             }
         });
     </script>
-<?php
+    <?php
 }
 
 if (get_option("seometa") == 1) {
