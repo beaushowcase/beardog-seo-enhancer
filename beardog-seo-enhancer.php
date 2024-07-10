@@ -3,7 +3,7 @@
  * Plugin Name:       Beardog SEO Enhancer
  * Plugin URI:        https://beardog.digital/
  * Description:       Designed to boost Beardog Company's website visibility and search engine rankings, ensuring overall digital marketing success.
- * Version:           1.6.4
+ * Version:           1.6.5
  * Requires PHP:      7.2
  * Author:            #beaubhavik
  * Author URI:        https://beardog.digital/
@@ -406,37 +406,45 @@ add_action('wp_ajax_bd_ajax_action', 'bd_ajax_function');
 add_action('wp_ajax_nopriv_bd_ajax_action', 'bd_ajax_function');
 
 
-//display logo
 function add_custom_image_to_admin_menu()
-{   
-	$logo_url = BD_PLUGIN_URL.'img/beardog-digital-logo.svg';
-	?>
-	<style>
-		#adminmenu {
-			margin-bottom: 50px;			
-		}
+{
+    ?>
+    <style>
+        #adminmenu {
+            margin-bottom: 50px;
+        }
+        .admin-custom-logo a{
+            text-decoration: none;
+            color:aqua;
+        }
 
-		.admin-custom-logo {
-			position: fixed;
-			bottom: 0;
-			left: 0;
-			width: 140px;
-			padding: 10px;
-			background: #1d2327;
-			text-align: left;
-			z-index: 9999;
-		}
+        .admin-custom-logo {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 140px;
+            padding: 10px;
+            background: #f0f0f1;
+            text-align: center;
+            z-index: 9999;
+            font-weight: 700;
+        }
+        .admin-custom-logo a:focus{
+            box-shadow: none;
+        }
 
-		.admin-custom-logo img {
-			max-width: 100%;
-			height: auto;
-		}
-	</style>
-	<div class="admin-custom-logo">
-        <a href="https://beardog.digital/" target="_blank">
-            <img src="<?php echo esc_url($logo_url); ?>" alt="Beardog Digital">
-        </a>		
-	</div>
-	<?php
+        .admin-custom-logo span {
+            color: #2271b1;
+        }
+    </style>
+    <div class="admin-custom-logo">
+        <a href="https://beardog.digital/" target="_blank"><span>BEARDOG DIGITAL</span></a>
+    </div>
+    <?php
 }
 add_action('in_admin_header', 'add_custom_image_to_admin_menu');
+
+function change_admin_footer_text() {
+    echo '';
+}
+add_filter('admin_footer_text', 'change_admin_footer_text');
